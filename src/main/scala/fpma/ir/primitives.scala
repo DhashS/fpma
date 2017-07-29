@@ -18,7 +18,7 @@ import scala.concurrent.duration.Duration
   override def siUnit = Volume.siUnit
   override def units = Volume.units
 }
-*/
+ */
 
 object NonNegativeVolume extends Dimension[Volume] {
   override def name = "NonNegativeVolume"
@@ -62,6 +62,10 @@ class Storage[T <: FluidClass: ClassTag](fluid: Fluid[T], vol: Volume) {
     else
       Inr(
         Inl(
-          new Storage[T](fluid, vol - volume) :: new Fluid[T](fluid.name, volume) :: HNil))
+          new Storage[T](fluid, vol - volume) :: new Fluid[T](fluid.name,
+                                                              volume) :: HNil))
   }
+}
+object Storage {
+  def apply[T <: FluidClass : ClassTag](fluid: Fluid[T], vol: Volume): Storage[T] = new Storage[T](fluid, vol)
 }

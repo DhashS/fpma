@@ -10,7 +10,7 @@ connectInput in run := true
 autoCompilerPlugins := true
 parallelExecution in test := false
 
-mainClass in Compile := Some("fpma.Main")
+mainClass in Compile := Some("FPAM.main")
 
 libraryDependencies ++= Seq(
   "com.lambdista" %% "config" % "0.5.1",
