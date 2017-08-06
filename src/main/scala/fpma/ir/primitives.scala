@@ -41,14 +41,17 @@ object Measure {
 
 class Mixer[A <: FluidClass: ClassTag,
             B <: FluidClass: ClassTag,
-            C <: FluidClass: ClassTag]() {
+            C <: FluidClass: ClassTag]{
   //The List[Fluid] is the other case, when reactants don't combine 100%
   //Type C denotes the desired mix fluid type
   type FluidMix = Fluid[A] :+: (List[Fluid[_]] :: Fluid[C] :: HNil) :+: CNil
-  def mix(f1: Fluid[A], f2: Fluid[A], name: String): FluidMix = {
+  def mix(f1: Fluid[A], f2: Fluid[B], name: String): FluidMix = {
     Inl(Fluid[A](name, f1.vol + f2.vol))
   }
   //TODO support separate FluidClass mixing
+}
+object Mixer {
+  def apply[T <: FluidClass : ClassTag](f1: Fluid[T], f2: Fluid[T], name:String): Fluid[T] = new Mixer[T, T, T].mix(f1, f2, name).head.get
 }
 
 class Storage[T <: FluidClass: ClassTag](fluid: Fluid[T], vol: Volume) {
